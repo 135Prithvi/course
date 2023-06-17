@@ -1,0 +1,60 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+import TopBar from "../components/TopBar";
+import {Dcon } from "../utils/db";
+// import { db } from "../utils/db";
+// const { rows: Rawcourses } = await db.execute(`SELECT * FROM course;`);
+// interface Course {
+// 	id: any;
+// 	title: string;
+// 	created_at: Date;
+// 	image_url: string;
+// }
+// [];
+// const courses = Rawcourses as Course[];
+const courses = await Dcon.query.course.findMany()
+console.log(courses);
+---
+
+<Layout
+	description="Latest Nextjs Optimised Tech code snippets for free"
+	title="Welcome to Course"
+>
+	<main class="border-black container mx-auto h-full">
+		<h1 class="text-3xl font-sans text-black text-center m-3">
+			Hello every world
+		</h1>
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
+			{
+				courses.map((item) => (
+					<div class="card w-fit bg-base-100 shadow-xl">
+						<figure>
+							<img src={item.image_url} alt="Shoes" />
+						</figure>
+						<div class="card-body">
+							<h2 class="card-title text-sm">{item.title}</h2>
+							<p class="hidden sm:block">
+								{dayjs(item.created_at).fromNow()}
+							</p>
+							<div class="card-actions justify-center sm:justify-end">
+								<a
+									href={`/course/${item.title.replace(
+										/\s/g,
+										""
+									)}/${item.id}`}
+									class="btn btn-primary max-w-fit text-sm md:text-base lg:text-lg"
+								>
+									Buy Now
+								</a>
+							</div>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</main>
+</Layout>

@@ -1,0 +1,69 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404 Page Not Found" description="">
+    <div class="max-w-md mx-auto  rounded p-8 shadow-md text-black">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4 ">
+            404 Page Not Found
+        </h1>
+        <p class="text-gray-600 mb-6">
+            Oops! It seems like you've stumbled upon a page that doesn't exist.
+            Don't worry, we're here to help you get back on track!
+        </p>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Suggestions</h2>
+        <ul class="list-disc pl-6 mb-6">
+            <li>Double-check the URL for any typos or errors.</li>
+            <li>
+                Return to the <a href="/" class="text-blue-500 underline"
+                    >Homepage</a
+                > and explore our available courses.
+            </li>
+            <li>
+                Contact our support team for assistance by emailing <a
+                    href="mailto:support@example.com"
+                    class="text-blue-500 underline">support@example.com</a
+                >.
+            </li>
+            <li>
+                Use the navigation menu or search bar above to find the
+                information you're looking for.
+            </li>
+        </ul>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Popular Courses</h2>
+        <ul class="list-disc pl-6 mb-6">
+            <li>
+                <a href="course/Course1/1" class="text-blue-500 underline">Course 1</a>
+            </li>
+            <li>
+                <a href="/course/Course2/2" class="text-blue-500 underline">Course 2</a>
+            </li>
+            <li>
+                <a href="/course/Course3/3" class="text-blue-500 underline">Course 3</a>
+            </li>
+        </ul>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Get in Touch</h2>
+        <p class="text-gray-600 mb-4">
+            If you have any questions or need further assistance, feel free to
+            reach out to us. We're here to help you make the most of your
+            learning journey.
+        </p>
+        <ul class="mb-4">
+            <li>
+                Email: <a
+                    href="mailto:info@example.com"
+                    class="text-blue-500 underline">info@example.com</a>
+            </li>
+            <li>Phone: +1-123-456-7890</li>
+        </ul>
+        <p class="text-gray-600">
+            We apologize for any inconvenience caused. Thank you for your
+            understanding!
+        </p>
+        <img
+            src="https://www.example.com/images/404-error-image.jpg"
+            alt="404 Error"
+            class="mt-8"
+        />
+    </div>
+</Layout>
