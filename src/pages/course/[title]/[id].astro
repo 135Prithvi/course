@@ -58,7 +58,7 @@ function shortenString(str: string) {
 ---
 
 <Bloglayout
-  description={shortenString(seo?.description as string)}
+  description={seo?.description as unknown as string}
   image_url={seo?.image_url as string}
   title={seo?.title as string}
 >
