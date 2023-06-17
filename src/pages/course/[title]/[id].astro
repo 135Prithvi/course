@@ -1,11 +1,11 @@
 ---
-
 import Markdown from "../../../components/Markdown";
 import { Dcon, db } from "../../../utils/db";
 import TopBar from "../../../components/TopBar";
-import { eq } from 'drizzle-orm';
+import { eq } from "drizzle-orm";
 import { content } from "../../../utils/schema";
 import Bloglayout from "../../../layouts/Bloglayout.astro";
+import { redis } from "../../../utils/seoDB";
 interface Paths {
   id: any;
   title: string;
@@ -31,23 +31,26 @@ export async function getStaticPaths() {
   });
 }
 const { id, title } = Astro.params;
+const seo = await redis.hgetall(`${title?.replace(/(\D)(\d)/, "$1 $2")}`);
+console.log(seo);
+
 // const { rows: paths } =
 //   await db.execute(`SELECT * FROM content WHERE course_id = ${id} LIMIT 1;
 // `);
 // const content = paths as unknown as Content[];
 // console.log(content[0]);
 const contents = await Dcon.query.content.findFirst({
-  where:  (content, { eq }) => eq(content.course_id, id),
-})
-function shortenString(str:string) {
-  const words = str.split(' ');
+  where: (content, { eq }) => eq(content.course_id, id),
+});
+function shortenString(str: string) {
+  const words = str.split(" ");
 
   if (words.length <= 20) {
     return str;
   }
 
   const shortenedWords = words.slice(0, 20);
-  const shortenedString = shortenedWords.join(' ');
+  const shortenedString = shortenedWords.join(" ");
 
   return shortenedString;
 }
@@ -55,17 +58,16 @@ function shortenString(str:string) {
 ---
 
 <Bloglayout
-  description={shortenString(contents?.content??"")}
-
-  title={title?.replace(/(\D)(\d)/, "$1 $2") ?? "Course X"}
-
+  description={shortenString(seo?.description as string)}
+  image_url={seo?.image_url as string}
+  title={seo?.title as string}
 >
-
-    <main class="border-black container mx-auto h-full">
-      <h1 class="text-3xl font-sans text-black text-center m-3">
-        {contents?.title}
-      </h1>
-      <div class="text-black  prose-pre:bg-slate-200 - w-full"><Markdown content={contents?.content as string} /></div>
-    </main>
-
+  <main class="border-black container mx-auto h-full">
+    <h1 class="text-3xl font-sans text-black text-center m-3">
+      {contents?.title}
+    </h1>
+    <div class="text-black prose-pre:bg-slate-200 - w-full">
+      <Markdown content={contents?.content as string} />
+    </div>
+  </main>
 </Bloglayout>

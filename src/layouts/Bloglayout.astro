@@ -3,9 +3,10 @@ import TopBar from "../components/TopBar";
 export interface Props {
 	title: string;
 	description: string;
+	image_url: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description ,image_url} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -20,7 +21,7 @@ const { title, description } = Astro.props;
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
-		<meta name="twitter:image" content="https://example.com/image.jpg" />
+		<meta name="twitter:image" content={image_url} />
 	</head>
 	<body>
 		<div class="min-h-screen bg-slate-200">
