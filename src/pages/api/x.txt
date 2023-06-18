@@ -1,0 +1,239 @@
+# Code Tutorial: Building a Hilariously Optimized Course Website
+
+Welcome to this hilariously optimized code tutorial where we'll create a course website using some delightful code snippets. Brace yourself for a laugh-filled journey through programming and memes!
+
+## Prerequisites
+
+To follow along, make sure you have the following:
+
+- Node.js installed
+- Access to a database (we'll be using PlanetScale in this tutorial)
+- A great sense of humor
+
+## Setting Up the Database Connection
+
+First, let's establish a connection to our database. We'll use the `db.ts` file to connect to PlanetScale and import the necessary libraries:
+
+```typescript
+import 'dotenv/config';
+import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { connect } from '@planetscale/database';
+import * as schema from './schema';
+
+const config = {
+  host: process.env.DATABASE_HOST,
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+};
+
+export const db = connect(config);
+export const Dcon = drizzle(db, { schema });
+```
+
+Now, we have a connected database instance accessible through the `Dcon` variable. Hurray!
+
+## Creating a Layout With Some Meme Magic
+
+Our layout is going to be legendary! The `Layout.astro` file sets up the HTML structure and incorporates some meme magic. Check it out:
+
+```jsx
+import TopBar from "../components/TopBar";
+
+export interface Props {
+  title: string;
+  description: string;
+  image_url: string;
+}
+
+const { title, description, image_url } = Astro.props;
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags for the funniest course website ever -->
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image_url} />
+  </head>
+  <body>
+    <!-- The epic top navigation bar -->
+    <div class="min-h-screen bg-slate-200">
+      <TopBar />
+      <slot />
+    </div>
+  </body>
+</html>
+```
+
+Buckle up for some outrageous meta tags and the most epic top navigation bar you've ever seen!
+
+## Introducing the Top Navigation Bar
+
+Our `TopBar.tsx` component is here to make your jaw drop. It's filled with hilarious memes and extraordinary navigation options:
+
+```tsx
+export default function TopBar() {
+  return (
+    <div className="navbar bg-base-100">
+      <div className="navbar-start">
+        <!-- The mind-blowing dropdown menu -->
+        <div className="dropdown">
+          <label tabIndex={0} className="btn btn-ghost lg:hidden">
+            <!-- Behold, the mystical hamburger menu -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+             
+
+ />
+            </svg>
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a>Item 1</a>
+            </li>
+            <li>
+              <a>Parent</a>
+              <ul className="p-2">
+                <li>
+                  <a>Submenu 1</a>
+                </li>
+                <li>
+                  <a>Submenu 2</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a>Item 3</a>
+            </li>
+          </ul>
+        </div>
+        <!-- The mind-blowing course button -->
+        <a className="btn btn-ghost normal-case text-xl">Course</a>
+      </div>
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1">
+          <li>
+            <a>Item 1</a>
+          </li>
+          <li tabIndex={0}>
+            <details>
+              <summary>Parent</summary>
+              <ul className="p-2">
+                <li>
+                  <a>Submenu 1</a>
+                </li>
+                <li>
+                  <a>Submenu 2</a>
+                </li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <a>Item 3</a>
+          </li>
+        </ul>
+      </div>
+      <div className="navbar-end">
+        <a className="btn">Button</a>
+      </div>
+    </div>
+  );
+}
+```
+
+Get ready to be amazed by the hamburger menu, dropdowns, and more! It's a navigation experience you won't forget.
+
+## Displaying Courses With a Touch of Comedy
+
+It's time to display our hilarious courses! The `index.astro` file brings together all the elements, incorporating memes and witty course information:
+
+```jsx
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+import TopBar from "../components/TopBar";
+import { Dcon } from "../utils/db";
+
+const courses = await Dcon.query.course.findMany();
+console.log(courses);
+---
+<Layout
+  description="Latest Nextjs Optimised Tech code snippets for free"
+  title="Welcome to Course"
+>
+  <main class="border-black container mx-auto h-full">
+    <h1 class="text-3xl font-sans text-black text-center m-3">
+      Hello every world
+    </h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
+      {
+        courses.map((item) => (
+          <div class="card w-fit bg-base-100 shadow-xl">
+            <figure>
+              <img src={item.image_url} alt="Shoes" />
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title text-sm">{item.title}</h2>
+              <p class="hidden sm:block">
+                {dayjs(item.created_at).fromNow()}
+              </p>
+              <div class="card-actions justify-center sm:justify-end">
+                <a
+                  href={`/course/${item.title.replace(
+                    /\s/g,
+                    ""
+                  )}/${item.id}`}
+                  class="btn btn-primary max-w-fit text-sm md:text-base lg:text-lg"
+                >
+                  Buy Now
+                </a>
+             
+
+ </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </main>
+</Layout>
+```
+
+Prepare to ROFL as we display the courses with their images, titles, and creation timestamps. Don't forget to click that "Buy Now" button to unleash your programming superpowers!
+
+## Conclusion
+
+Congratulations on completing this hilarious and unmatched code tutorial! You've mastered the art of building an outrageously optimized course website using memes, funny snippets, and mind-blowing navigation. Now go forth and share the laughter with fellow programmers!
+
+Remember, code and memes can make the world a happier place. Happy coding! 😄
+
+> Meme: [Programming at its finest](https://imgflip.com/i/70cxl8)
+
+> Meme: [When your code works perfectly](https://imgflip.com/i/70cxb3)
+
+> Meme: [Trying to understand someone else's code](https://imgflip.com/i/70cxe1)
+
+> GIF: [Hilarious laughter](https://giphy.com/gifs/laughing-evil-f2hao0Rf9Ct1eqq4j5)

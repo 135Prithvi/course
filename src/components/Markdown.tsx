@@ -157,7 +157,7 @@ const dark =  {
   }
 };
 export default function Markdown({ content }: { content: string  }) {
-  return <ReactMarkdown className="text-black w-full max-w-none prose-img:rounded prose-sm sm:prose-base lg:prose-lg xl:prose-2xl px-3 prose-img:w-full prose-img:h-full prose-img:border-4 prose-img:border-black prose prose-headings:text-black prose-a:text-blue-900 prose-a:no-underline hover:prose-a:text-blue-700 prose-table:table-auto prose-p:w-full" components={{
+  return <ReactMarkdown className= "text-black w-full max-w-none prose-img:rounded prose-sm sm:prose-base lg:prose-lg xl:prose-2xl px-3 prose-img:w-full prose-img:h-full prose-img:border-4 prose-img:border-black prose prose-headings:text-black prose-a:text-blue-900 prose-a:no-underline hover:prose-a:text-blue-700 prose-table:table-auto prose-p:w-full" components={{
     code({node, inline, className, children, ...props}) {
       const match = /language-(\w+)/.exec(className || '')
       return !inline && match ? (
@@ -165,15 +165,18 @@ export default function Markdown({ content }: { content: string  }) {
           {...props}
           children={String(children).replace(/\n$/, '')}
           style={dark}
+        
           customStyle={{
-            backgroundColor: "ButtonShadow",
-            borderColor: "ButtonFace"
+            backgroundColor: "black",
+          borderColor: "white",
+
+
           }}
           language={match[1]}
           PreTag="div"
         />
       ) : (
-        <code {...props} className={className}>
+        <code {...props} className={className+ 'mockup-code'}>
           {children}
         </code>
       )
