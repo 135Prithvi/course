@@ -7,6 +7,7 @@ export interface Props {
 
 }
 
+ 
 const { title, description,image_url } = Astro.props;
 ---
 
@@ -23,6 +24,8 @@ const { title, description,image_url } = Astro.props;
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={image_url} />
+		<meta name="twitter:creator" content="@dickinsontiwari" />
+		<meta name="google-site-verification" content="Hfqc9pV2RUFW4MHhQr4KmRUnFuQ4TC4eVNit5Fis_h0" />
 	</head>
 	<body>
 		<div class="min-h-screen bg-slate-200">
